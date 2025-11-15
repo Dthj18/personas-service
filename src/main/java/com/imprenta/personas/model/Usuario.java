@@ -1,5 +1,7 @@
 package com.imprenta.personas.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -21,6 +23,7 @@ public class Usuario {
     @Column(length = 100, nullable = false, unique = true)
     private String email;
 
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @Column(name = "contrasena", length = 255, nullable = false)
     private String password;
 

@@ -31,22 +31,41 @@ public class UsuarioController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Usuario> getById(@PathVariable Long id) {
-        return ResponseEntity.ok(usuarioService.findById(id));
+        Usuario usuario = usuarioService.findById(id);
+
+        if (usuario == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.ok(usuario);
     }
 
     @PostMapping
     public ResponseEntity<Usuario> create(@RequestBody Usuario usuario) {
-        return ResponseEntity.ok(usuarioService.save(usuario));
+        Usuario creado = usuarioService.save(usuario);
+        return ResponseEntity.status(201).body(creado);
+
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<Usuario> update(@PathVariable Long id, @RequestBody Usuario usuario) {
-        return ResponseEntity.ok(usuarioService.update(id, usuario));
+        Usuario actualizado = usuarioService.update(id, usuario);
+
+        if (actualizado == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.ok(actualizado);
     }
 
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable Long id) {
-        usuarioService.delete(id);
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        try {
+            usuarioService.delete(id);
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @GetMapping("/email/{email}")

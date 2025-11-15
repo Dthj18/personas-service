@@ -1,4 +1,4 @@
-package com.imprenta.personas_service;
+package com.imprenta.personas;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
