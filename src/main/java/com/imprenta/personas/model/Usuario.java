@@ -1,7 +1,5 @@
 package com.imprenta.personas.model;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -15,7 +13,7 @@ public class Usuario {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_usuario")
-    private Long idUsuario;
+    private Integer idUsuario;
 
     @Column(length = 100, nullable = false)
     private String nombre;
@@ -23,18 +21,17 @@ public class Usuario {
     @Column(length = 100, nullable = false, unique = true)
     private String email;
 
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @Column(name = "contrasena", length = 255, nullable = false)
     private String password;
 
     @Column(name = "id_rol", nullable = false)
     private Integer idRol;
 
-    public Long getIdUser() {
+    public Integer getIdUser() {
         return idUsuario;
     }
 
-    public void setIdUser(Long idUsuario) {
+    public void setIdUser(Integer idUsuario) {
         this.idUsuario = idUsuario;
     }
 

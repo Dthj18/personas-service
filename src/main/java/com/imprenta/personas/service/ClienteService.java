@@ -20,7 +20,7 @@ public class ClienteService {
         return clienteRepository.findAll();
     }
 
-    public Cliente findById(Long id) {
+    public Cliente findById(Integer id) {
         return clienteRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Cliente con ID" + id + " no encontrado"));
     }
@@ -39,7 +39,7 @@ public class ClienteService {
         return clienteRepository.save(cliente);
     }
 
-    public Cliente update(Long id, Cliente datosActualizados) {
+    public Cliente update(Integer id, Cliente datosActualizados) {
 
         Cliente clienteExistente = clienteRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Cliente con ID " + id + " no encontrado"));
@@ -67,13 +67,13 @@ public class ClienteService {
         clienteExistente.setTelefono(datosActualizados.getTelefono());
         clienteExistente.setRazonSocial(datosActualizados.getRazonSocial());
         clienteExistente.setDireccionFiscal(datosActualizados.getDireccionFiscal());
-        clienteExistente.setCfdi(datosActualizados.getCfdi());
+        clienteExistente.setIdUsoCfdi(datosActualizados.getIdUsoCfdi());
         clienteExistente.setIdRegimenFiscal(datosActualizados.getIdRegimenFiscal());
 
         return clienteRepository.save(clienteExistente);
     }
 
-    public void delete(Long id) {
+    public void delete(Integer id) {
         if (!clienteRepository.existsById(id)) {
             throw new ResourceNotFoundException("No se puede eliminar, usuario con ID " + id + " no existe");
         }

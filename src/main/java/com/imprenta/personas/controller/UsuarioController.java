@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.imprenta.personas.dto.UsuarioDTO;
 import com.imprenta.personas.model.Usuario;
 import com.imprenta.personas.service.UsuarioService;
 
@@ -30,14 +31,16 @@ public class UsuarioController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Usuario> getById(@PathVariable Long id) {
+    public ResponseEntity<UsuarioDTO> getById(@PathVariable Integer id) {
         Usuario usuario = usuarioService.findById(id);
 
-        if (usuario == null) {
-            return ResponseEntity.notFound().build();
-        }
+        UsuarioDTO dto = new UsuarioDTO();
+        dto.setIdUsuario(usuario.getIdUser());
+        dto.setNombre(usuario.getNombre());
+        dto.setEmail(usuario.getEmail());
+        dto.setIdRol(usuario.getRol());
 
-        return ResponseEntity.ok(usuario);
+        return ResponseEntity.ok(dto);
     }
 
     @PostMapping
@@ -48,7 +51,7 @@ public class UsuarioController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Usuario> update(@PathVariable Long id, @RequestBody Usuario usuario) {
+    public ResponseEntity<Usuario> update(@PathVariable Integer id, @RequestBody Usuario usuario) {
         Usuario actualizado = usuarioService.update(id, usuario);
 
         if (actualizado == null) {
@@ -59,7 +62,7 @@ public class UsuarioController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id) {
+    public ResponseEntity<Void> delete(@PathVariable Integer id) {
         try {
             usuarioService.delete(id);
             return ResponseEntity.ok().build();

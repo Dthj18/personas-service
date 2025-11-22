@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import com.imprenta.personas.model.Usuario;
 
 @Repository
-public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
+public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
     boolean existsByEmail(String email);
     Optional<Usuario> findByEmail(String email);
     

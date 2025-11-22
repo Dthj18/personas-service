@@ -74,7 +74,7 @@ public class UsuarioControllerTest {
 
     @Test
     public void testGetUsuarioPorId() throws Exception {
-        Long idPrueba = usuarioDePrueba.getIdUser();
+        Integer idPrueba = usuarioDePrueba.getIdUser();
 
         mockMvc.perform(get("/api/usuarios/" + idPrueba))
                 .andExpect(status().isOk())
@@ -89,7 +89,7 @@ public class UsuarioControllerTest {
 
     @Test
     public void testUpdateUsuario() throws Exception {
-        Long idPrueba = usuarioDePrueba.getIdUser();
+        Integer idPrueba = usuarioDePrueba.getIdUser();
 
         Usuario usuarioActualizado = new Usuario();
         usuarioActualizado.setNombre("Nombre Actualizado");
@@ -107,7 +107,7 @@ public class UsuarioControllerTest {
 
     @Test
     public void testDeleteUsuario() throws Exception {
-        Long idPrueba = usuarioDePrueba.getIdUser();
+        Integer idPrueba = usuarioDePrueba.getIdUser();
 
         mockMvc.perform(delete("/api/usuarios/" + idPrueba))
                 .andExpect(status().isOk());

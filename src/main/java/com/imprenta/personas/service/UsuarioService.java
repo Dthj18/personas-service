@@ -25,7 +25,7 @@ public class UsuarioService {
         return usuarioRepository.findAll();
     }
 
-    public Usuario findById(Long id) {
+    public Usuario findById(Integer id) {
         return usuarioRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Usuario con ID" + id + " no encontrado"));
 
@@ -42,7 +42,7 @@ public class UsuarioService {
         return usuarioRepository.save(usuario);
     }
 
-    public Usuario update(Long id, Usuario datosActualizados) {
+    public Usuario update(Integer id, Usuario datosActualizados) {
         Usuario usuarioExistente = usuarioRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Usuario con ID " + id + " no encontrado"));
 
@@ -64,7 +64,7 @@ public class UsuarioService {
         return usuarioRepository.save(usuarioExistente);
     }
 
-    public void delete(Long id) {
+    public void delete(Integer id) {
         if (!usuarioRepository.existsById(id)) {
             throw new ResourceNotFoundException("No se puede eliminar, usuario con ID " + id + " no existe");
         }

@@ -13,7 +13,7 @@ public class Cliente {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_cliente")
-    private Long idCliente;
+    private Integer idCliente;
 
     @Column(length = 100, nullable = false)
     private String nombre;
@@ -33,17 +33,17 @@ public class Cliente {
     @Column(name = "direccion_fiscal", columnDefinition = "TEXT")
     private String direccionFiscal;
 
-    @Column(name = "uso_cfdi", length = 10)
-    private String cfdi;
+    @Column(name = "id_uso_cfdi", length = 10)
+    private Integer idUsoCfdi;
 
     @Column(name = "id_regimen_fiscal")
     private Integer idRegimenFiscal;
 
-    public Long getIdCliente() {
+    public Integer getIdCliente() {
         return idCliente;
     }
 
-    public void setIdCliente(Long idCliente) {
+    public void setIdCliente(Integer idCliente) {
         this.idCliente = idCliente;
     }
 
@@ -95,12 +95,12 @@ public class Cliente {
         this.direccionFiscal = direccionFiscal;
     }
 
-    public String getCfdi() {
-        return cfdi;
+    public Integer getIdUsoCfdi() {
+        return idUsoCfdi;
     }
 
-    public void setCfdi(String cfdi) {
-        this.cfdi = cfdi;
+    public void setIdUsoCfdi(Integer idUsoCfdi) {
+        this.idUsoCfdi = idUsoCfdi;
     }
 
     public Integer getIdRegimenFiscal() {
