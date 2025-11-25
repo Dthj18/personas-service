@@ -2,8 +2,11 @@ package com.imprenta.personas.service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
+
+import com.imprenta.personas.dto.UsuarioDTO;
 import com.imprenta.personas.exception.*;
 import com.imprenta.personas.model.Usuario;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -15,6 +18,8 @@ public class UsuarioService {
 
     private final UsuarioRepository usuarioRepository;
     private final PasswordEncoder passwordEncoder;
+
+    private static final Integer ROL_DISENADOR = 5;
 
     public UsuarioService(UsuarioRepository usuarioRepository, PasswordEncoder passwordEncoder) {
         this.usuarioRepository = usuarioRepository;
@@ -73,5 +78,25 @@ public class UsuarioService {
 
     public Optional<Usuario> findByEmail(String email) {
         return usuarioRepository.findByEmail(email);
+    }
+
+    public List<UsuarioDTO> obtenerListaDeDisenadores() {
+        List<Usuario> usuarios = usuarioRepository.findByIdRol(ROL_DISENADOR);
+
+        return usuarios.stream()
+                .map(this::convertirADTO) // Llamamos al método de abajo
+                .collect(Collectors.toList());
+    }
+
+    // 2. Método privado para manejar la conversión (y evitar el error de tipos)
+    private UsuarioDTO convertirADTO(Usuario u) {
+        UsuarioDTO dto = new UsuarioDTO();
+
+        dto.setIdUsuario(u.getIdUser());
+        dto.setNombre(u.getNombre());
+        dto.setEmail(u.getEmail());
+        dto.setIdRol(u.getRol());
+
+        return dto;
     }
 }

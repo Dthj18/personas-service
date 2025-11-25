@@ -80,4 +80,9 @@ public class ClienteService {
         clienteRepository.deleteById(id);
     }
 
+    public List<Cliente> buscarClientesPorTermino(String terminoBusqueda) {
+        return clienteRepository.findByNombreContainingIgnoreCaseOrRazonSocialContainingIgnoreCase(terminoBusqueda,
+                terminoBusqueda);
+    }
+
 }

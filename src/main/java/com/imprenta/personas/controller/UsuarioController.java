@@ -78,4 +78,9 @@ public class UsuarioController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
+    @GetMapping("/disenadores")
+    public ResponseEntity<List<UsuarioDTO>> getDisenadores() {
+        return ResponseEntity.ok(usuarioService.obtenerListaDeDisenadores());
+    }
+
 }
