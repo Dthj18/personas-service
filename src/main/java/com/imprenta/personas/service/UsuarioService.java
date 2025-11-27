@@ -3,9 +3,7 @@ package com.imprenta.personas.service;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-
 import org.springframework.stereotype.Service;
-
 import com.imprenta.personas.dto.UsuarioDTO;
 import com.imprenta.personas.exception.*;
 import com.imprenta.personas.model.Usuario;
