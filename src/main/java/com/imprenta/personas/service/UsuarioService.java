@@ -24,8 +24,12 @@ public class UsuarioService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public List<Usuario> findAll() {
-        return usuarioRepository.findAll();
+    public List<UsuarioDTO> findAllDTO() {
+        List<Usuario> usuarios = usuarioRepository.findAll();
+
+        return usuarios.stream()
+                .map(this::convertirADTO)
+                .collect(Collectors.toList());
     }
 
     public Usuario findById(Integer id) {
@@ -82,11 +86,10 @@ public class UsuarioService {
         List<Usuario> usuarios = usuarioRepository.findByIdRol(ROL_DISENADOR);
 
         return usuarios.stream()
-                .map(this::convertirADTO) // Llamamos al método de abajo
+                .map(this::convertirADTO)
                 .collect(Collectors.toList());
     }
 
-    // 2. Método privado para manejar la conversión (y evitar el error de tipos)
     private UsuarioDTO convertirADTO(Usuario u) {
         UsuarioDTO dto = new UsuarioDTO();
 
