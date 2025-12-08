@@ -2,6 +2,7 @@ package com.imprenta.personas.service;
 
 import java.util.List;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.imprenta.personas.model.Cliente;
 import com.imprenta.personas.repository.ClienteRepository;
@@ -39,28 +40,28 @@ public class ClienteService {
         return clienteRepository.save(cliente);
     }
 
+    @Transactional
     public Cliente update(Integer id, Cliente datosActualizados) {
 
         Cliente clienteExistente = clienteRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Cliente con ID " + id + " no encontrado"));
 
         if (datosActualizados.getEmail() != null && !datosActualizados.getEmail().isBlank()) {
-            if (!clienteExistente.getEmail().equals(datosActualizados.getEmail()) &&
-                    clienteRepository.existsByEmail(datosActualizados.getEmail())) {
+            String nuevoEmail = datosActualizados.getEmail().trim();
+
+            if (clienteRepository.existsByEmailAndIdClienteNot(nuevoEmail, id)) {
                 throw new BadRequestException("El email ya está en uso por otro cliente");
             }
-            clienteExistente.setEmail(datosActualizados.getEmail());
+            clienteExistente.setEmail(nuevoEmail);
         }
 
         if (datosActualizados.getRfc() != null && !datosActualizados.getRfc().isBlank()) {
-            if (clienteExistente.getRfc() == null ||
-                    !clienteExistente.getRfc().equals(datosActualizados.getRfc())) {
+            String nuevoRfc = datosActualizados.getRfc().trim().toUpperCase();
 
-                if (clienteRepository.existsByRfc(datosActualizados.getRfc())) {
-                    throw new BadRequestException("El RFC ya está registrado por otro cliente");
-                }
+            if (clienteRepository.existsByRfcAndIdClienteNot(nuevoRfc, id)) {
+                throw new BadRequestException("El RFC ya está registrado por otro cliente");
             }
-            clienteExistente.setRfc(datosActualizados.getRfc());
+            clienteExistente.setRfc(nuevoRfc);
         }
 
         clienteExistente.setNombre(datosActualizados.getNombre());
