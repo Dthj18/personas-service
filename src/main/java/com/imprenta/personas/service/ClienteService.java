@@ -27,16 +27,17 @@ public class ClienteService {
     }
 
     public Cliente save(Cliente cliente) {
-        if (cliente.getRfc() != null && !cliente.getRfc().isBlank()) {
 
+        if (clienteRepository.existsByEmail(cliente.getEmail())) {
+            throw new RuntimeException("El email ya está registrado");
+        }
+
+        if (cliente.getRfc() != null && !cliente.getRfc().isBlank()) {
             if (clienteRepository.existsByRfc(cliente.getRfc())) {
                 throw new RuntimeException("El RFC ya está registrado");
             }
-
-            if (clienteRepository.existsByEmail(cliente.getEmail())) {
-                throw new RuntimeException("El email ya está registrado");
-            }
         }
+
         return clienteRepository.save(cliente);
     }
 
