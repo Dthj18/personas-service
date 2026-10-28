@@ -18,4 +18,8 @@ public interface ClienteRepository extends JpaRepository<Cliente, Integer> {
 
     boolean existsByRfcAndIdClienteNot(String rfc, Integer idCliente);
 
+    List<Cliente> findByRfcIsNull();
+
+    List<Cliente> findByRfcIsNotNull();
+
 }

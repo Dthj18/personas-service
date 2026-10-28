@@ -1,5 +1,7 @@
 package com.imprenta.personas.model;
 
+import java.math.BigDecimal;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -38,6 +40,18 @@ public class Cliente {
 
     @Column(name = "id_regimen_fiscal")
     private Integer idRegimenFiscal;
+
+    @Column(name = "credito_habilitado")
+    private Boolean creditoHabilitado;
+
+    @Column(name = "estatus_credito", length = 20)
+    private String estatusCredito;
+
+    @Column(name = "dias_credito")
+    private Integer diasCredito;
+
+    @Column(name = "limite_credito", precision = 12, scale = 2)
+    private BigDecimal limiteCredito;
 
     public Integer getIdCliente() {
         return idCliente;
@@ -109,6 +123,38 @@ public class Cliente {
 
     public void setIdRegimenFiscal(Integer idRegimenFiscal) {
         this.idRegimenFiscal = idRegimenFiscal;
+    }
+
+    public Boolean getCreditoHabilitado() {
+        return creditoHabilitado;
+    }
+
+    public void setCreditoHabilitado(Boolean creditoHabilitado) {
+        this.creditoHabilitado = creditoHabilitado;
+    }
+
+    public String getEstatusCredito() {
+        return estatusCredito;
+    }
+
+    public void setEstatusCredito(String estatusCredito) {
+        this.estatusCredito = estatusCredito;
+    }
+
+    public Integer getDiasCredito() {
+        return diasCredito;
+    }
+
+    public void setDiasCredito(Integer diasCredito) {
+        this.diasCredito = diasCredito;
+    }
+
+    public BigDecimal getLimiteCredito() {
+        return limiteCredito;
+    }
+
+    public void setLimiteCredito(BigDecimal limiteCredito) {
+        this.limiteCredito = limiteCredito;
     }
 
 }

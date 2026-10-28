@@ -6,6 +6,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.imprenta.personas.model.Cliente;
 import com.imprenta.personas.repository.ClienteRepository;
+import com.imprenta.personas.dto.ActualizarCreditoDTO;
+import com.imprenta.personas.dto.AprobarCreditoRequest;
 import com.imprenta.personas.exception.*;
 
 @Service
@@ -85,6 +87,50 @@ public class ClienteService {
     public List<Cliente> buscarClientesPorTermino(String terminoBusqueda) {
         return clienteRepository.findByNombreContainingIgnoreCaseOrRazonSocialContainingIgnoreCase(terminoBusqueda,
                 terminoBusqueda);
+    }
+
+    @Transactional
+    public Cliente aprobarCredito(Integer idCliente, AprobarCreditoRequest request) {
+        Cliente cliente = clienteRepository.findById(idCliente)
+                .orElseThrow(() -> new RuntimeException("Cliente no encontrado con ID: " + idCliente));
+
+        if (cliente.getRfc() == null || cliente.getRfc().trim().isEmpty()) {
+            throw new IllegalArgumentException(
+                    "No está permitido asignar crédito a clientes de mostrador (sin RFC registrado).");
+        }
+
+        cliente.setCreditoHabilitado(true);
+        cliente.setDiasCredito(request.getDiasCredito());
+        cliente.setLimiteCredito(request.getLimiteCredito());
+        cliente.setEstatusCredito("AL_CORRIENTE");
+
+        return clienteRepository.save(cliente);
+    }
+
+    public List<Cliente> buscarPorTipo(String tipo) {
+        if ("mostrador".equalsIgnoreCase(tipo)) {
+            return clienteRepository.findByRfcIsNull();
+        } else if ("factura".equalsIgnoreCase(tipo)) {
+            return clienteRepository.findByRfcIsNotNull();
+        }
+
+        return java.util.Collections.emptyList();
+    }
+
+    @Transactional
+    public Cliente actualizarCredito(Integer idCliente, ActualizarCreditoDTO dto) {
+        Cliente cliente = clienteRepository.findById(idCliente)
+                .orElseThrow(() -> new RuntimeException("Cliente no encontrado con ID: " + idCliente));
+
+        // Actualizar solo los campos financieros
+        if (dto.getLimiteCredito() != null)
+            cliente.setLimiteCredito(dto.getLimiteCredito());
+        if (dto.getDiasCredito() != null)
+            cliente.setDiasCredito(dto.getDiasCredito());
+        if (dto.getCreditoHabilitado() != null)
+            cliente.setCreditoHabilitado(dto.getCreditoHabilitado());
+
+        return clienteRepository.save(cliente);
     }
 
 }
